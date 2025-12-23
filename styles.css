@@ -13,7 +13,7 @@ header {
   display: flex;
   justify-content: space-between; /* Title left, buttons container right */
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* prevent buttons from dropping below */
   padding: 0 20px;
   margin-bottom: 20px;
 }
@@ -27,6 +27,7 @@ header .buttons-container {
   display: flex;
   gap: 10px; /* space between buttons */
   flex-wrap: nowrap;
+  flex-shrink: 0; /* prevent container from shrinking */
 }
 
 button {
