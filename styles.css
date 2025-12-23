@@ -1,0 +1,171 @@
+* { box-sizing: border-box; margin:0; padding:0; }
+
+body {
+  font-family: system-ui, sans-serif;
+  background-color: #1e293b;
+  color: white;
+  padding: 20px;
+  transition: background 0.5s, color 0.5s;
+}
+
+/* HEADER: title left, buttons right */
+header {
+  display: flex;
+  justify-content: space-between; /* Title left, buttons container right */
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+header .buttons-container {
+  display: flex;
+  gap: 10px; /* space between buttons */
+  flex-wrap: nowrap;
+}
+
+button {
+  padding:10px 16px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  transition: all 0.3s;
+  font-size:1.1rem;
+}
+
+button:hover { transform: scale(1.05); }
+
+body.dark button { background:#fff; color:#1e293b; }
+body.light button { background:#111; color:#fff; }
+
+/* THEME TOGGLE BUTTON GLOW AND TOOLTIP BELOW */
+#theme-toggle {
+  position: relative; /* for tooltip */
+  transition: all 0.3s;
+  z-index: 10;
+}
+
+/* Glow effect on hover */
+#theme-toggle:hover {
+  box-shadow: 0 0 12px 4px rgba(255, 255, 255, 0.6);
+  transform: scale(1.1);
+}
+
+/* Tooltip below the button */
+#theme-toggle::after {
+  content: "Dark mode is active"; /* default for dark */
+  position: absolute;
+  top: 120%; /* below the button */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff; /* white for dark mode */
+  color: #1e293b;   /* dark text for dark mode */
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 100; /* ensure tooltip is above other elements */
+}
+
+#theme-toggle:hover::after {
+  opacity: 1;
+}
+
+/* Light mode tooltip */
+body.light #theme-toggle::after {
+  background: #1e293b; /* dark background for light mode */
+  color: #fff;          /* white text */
+  content: "Light mode is active";
+}
+
+#playing-cards {
+  position: relative;
+  width: 100%;
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Hands */
+.hand-container { display:flex; flex-direction:column; align-items:center; gap:10px; }
+.hand-label { font-weight:bold; font-size:1.2rem; }
+.hand { display:flex; gap:20px; justify-content:center; flex-wrap: wrap; }
+
+/* Card */
+.card {
+  width: clamp(100px, 12vw, 140px);
+  height: clamp(140px, 18vw, 200px);
+  perspective: 1000px;
+  position: absolute;
+  transition: transform 0.5s ease, left 0.5s ease, top 0.5s ease;
+  cursor: pointer;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  transform-style: preserve-3d;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  position: relative;
+  transition: transform 0.6s, background 0.3s, color 0.3s;
+}
+
+.card:hover .card-inner { transform: rotateY(180deg); }
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+  transition: background 0.3s, color 0.3s;
+}
+
+.card-back {
+  background-color: #111;
+  color: white;
+  transform: rotateY(180deg);
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card Colors */
+body.dark .card-front { background:white; }
+body.dark .black { color:black; }
+body.dark .red { color:red; }
+
+body.light { background:white; color:#111; }
+body.light .card-front { background:#1e293b; }
+body.light .black { color:white; }
+body.light .red { color:red; }
+
+.left { align-self:flex-start; font-size:0.9rem; }
+.middle { align-self:center; display:flex; flex-direction:column; align-items:center; gap:4px; font-size:1.5rem; }
+.right { align-self:flex-end; font-size:0.9rem; transform:rotate(180deg); }
+
+.face .middle .face-icon { font-size:2rem; }
+
+@media(max-width:480px){
+  .card { width:40vw; height:55vw; }
+  .hand { gap:12px; }
+}
